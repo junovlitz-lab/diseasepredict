@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Disease Risk Predictor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="container">
+
+    <header class="hero-card">
+      <div class="hero-copy">
+        <h1>Disease Risk Predictor</h1>
+        <p class="subtitle">A thoughtful, easy-to-read clinical overview for understanding how lifestyle, metabolic, and cardiovascular factors contribute to disease risk.</p>
+      </div>
+      <div class="hero-visual" aria-hidden="true">🫀</div>
+    </header>
+
+    <nav class="topbar" aria-label="Primary">
+      <button class="tab-btn active" data-tab="home">Homepage</button>
+      <button class="tab-btn" data-tab="predictor">Disease prediction</button>
+      <button class="tab-btn" data-tab="prevention">Prevention</button>
+    </nav>
+
+    <section id="home" class="tab active">
+      <section class="intro-panel">
+        <h2>Why this tool exists</h2>
+        <p>Our goal is to support doctors and care teams with a fast, understandable snapshot of patient risk. By turning a few key clinical factors into a simple risk estimate, the platform helps clinicians identify where more attention, testing, and preventive action may be needed. It is designed as a supportive aid, not a replacement for medical judgment, physical examination, or specialist guidance.</p>
+      </section>
+
+      <h3 class="section-title">Purpose</h3>
+      <p>The purpose of this dashboard is to help healthcare professionals translate patient history and lifestyle information into a practical risk signal. The early identification of elevated risk can guide discussion about follow-up visits, lifestyle changes, medication review, and screening priorities.</p>
+
+      <h3 class="section-title">How this works</h3>
+      <div class="info-grid">
+        <div class="card">
+          <h3>Supervised Learning</h3>
+          <p>These models are trained on historical patient records where the outcome is already known. That means the system learns the relationship between factors such as age, blood pressure, BMI, smoking, and glucose levels and the chances of disease developing or being present.</p>
+        </div>
+        <div class="card">
+          <h3>Random Forest</h3>
+          <p>A Random Forest combines many decision trees instead of depending on one path through the data. This makes the prediction more stable, less sensitive to noise, and often more reliable when working with real-world clinical information.</p>
+        </div>
+        <div class="card disclaimer">
+          <h3>⚠ Medical Disclaimer</h3>
+          <p>This is for educational/demonstration purposes. Always consult clinical guidelines and patient history when making decisions.</p>
+        </div>
+      </div>
+
+      <p style="margin-top:1rem">Datasets included in this workspace (links below):</p>
+      <ul style="margin-top:.5rem">
+        <li><a href="/data/diabetes_prediction_dataset.csv">Type 2 diabetes dataset</a></li>
+        <li><a href="/data/heart-disease-predictions.ipynb">Heart disease notebook</a></li>
+        <li><a href="/data/stroke-predictions.ipynb">Stroke notebook</a></li>
+      </ul>
+    </section>
+
+    <section id="predictor" class="tab">
+      <section class="intro-panel">
+        <h2>Disease prediction</h2>
+        <p>Choose one condition and enter the core clinical features to see the model’s risk estimate. The dropdown below switches between Type 2 diabetes, heart disease, and stroke.</p>
+        <div class="field"><label for="diseaseSelect">Disease</label>
+          <select id="diseaseSelect" class="disease-select">
+            <option value="diabetes">Type 2 diabetes</option>
+            <option value="heart">Heart disease</option>
+            <option value="stroke">Stroke</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Diabetes form -->
+      <div class="form-section disease-panel" data-disease="diabetes">
+        <h3>Type 2 diabetes</h3>
+        <p>Type 2 diabetes is a long-term metabolic condition in which the body has difficulty moving glucose from the bloodstream into the cells that need it. It is strongly influenced by age, excess body weight, elevated HbA1c and blood glucose, high blood pressure, sedentary lifestyle, and smoking. Over time, elevated glucose can strain the kidneys, blood vessels, eyes, and nervous system, which is why early recognition and prevention matter so much.</p>
+        <form class="disease-form" data-disease="diabetes">
+          <div class="form-grid">
+            <div class="field"><label>Age</label><input name="age" type="number" min="1" max="120" required></div>
+            <div class="field"><label>Gender</label>
+              <select name="gender" required>
+                <option value="">Select…</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field"><label>BMI</label><input name="bmi" type="number" step="0.1" min="10" max="70" required></div>
+            <div class="field"><label>HbA1c (%)</label><input name="HbA1c_level" type="number" step="0.1" min="3" max="15" required></div>
+            <div class="field"><label>Blood glucose (mg/dL)</label><input name="blood_glucose_level" type="number" min="50" max="400" required></div>
+            <div class="field"><label>Smoking history</label>
+              <select name="smoking_history" required>
+                <option value="">Select…</option>
+                <option value="never">Never</option>
+                <option value="former">Former</option>
+                <option value="current">Current</option>
+                <option value="not current">Not Current</option>
+                <option value="ever">Ever</option>
+                <option value="No Info">No Info</option>
+              </select>
+            </div>
+            <div class="field"><label>Hypertension</label>
+              <div class="toggle-group"><label><input type="radio" name="hypertension" value="1" required> Yes</label><label><input type="radio" name="hypertension" value="0"> No</label></div>
+            </div>
+            <div class="field"><label>Heart disease</label>
+              <div class="toggle-group"><label><input type="radio" name="heart_disease" value="1" required> Yes</label><label><input type="radio" name="heart_disease" value="0"> No</label></div>
+            </div>
+          </div>
+          <button class="btn-primary" type="submit">Predict Type 2 diabetes risk</button>
+        </form>
+      </div>
+
+      <!-- Heart disease form -->
+      <div class="form-section disease-panel hidden" data-disease="heart">
+        <h3>Heart disease</h3>
+        <p>Heart disease covers a broad set of conditions that affect the heart and the blood vessels that supply it. Risk rises with age, high blood pressure, abnormal cholesterol, smoking, low physical activity, obesity, and related metabolic problems such as diabetes. These factors can lead to plaque build-up, reduced blood flow, and extra strain on the heart, increasing the chance of chest pain, heart attack, or long-term cardiac damage.</p>
+        <form class="disease-form" data-disease="heart">
+          <div class="form-grid">
+            <div class="field"><label>Age</label><input name="age" type="number" min="1" max="120" required></div>
+            <div class="field"><label>Gender</label>
+              <select name="gender" required><option value="">Select…</option><option>Male</option><option>Female</option><option>Other</option></select>
+            </div>
+            <div class="field"><label>Cholesterol (mg/dL)</label><input name="cholesterol" type="number" min="100" max="400"></div>
+            <div class="field"><label>Hypertension</label>
+              <div class="toggle-group"><label><input type="radio" name="hypertension" value="1" required> Yes</label><label><input type="radio" name="hypertension" value="0"> No</label></div>
+            </div>
+            <div class="field"><label>Smoking</label>
+              <select name="smoking_history"><option value="">Select…</option><option value="never">Never</option><option value="current">Current</option></select>
+            </div>
+          </div>
+          <p style="margin-top:.6rem">Dataset / analysis notebook: <a href="/data/heart-disease-predictions.ipynb">view</a></p>
+          <button class="btn-primary" type="submit">Predict heart disease risk</button>
+        </form>
+      </div>
+
+      <!-- Stroke form -->
+      <div class="form-section disease-panel hidden" data-disease="stroke">
+        <h3>Stroke</h3>
+        <p>Stroke occurs when blood flow to the brain is interrupted, either by a clot or by bleeding in the brain. It is heavily influenced by older age, high blood pressure, existing heart conditions, smoking, and other vascular risk factors. Because stroke can damage brain tissue very quickly, identifying elevated risk early can help clinicians prioritize prevention, blood pressure control, and urgent treatment planning.</p>
+        <form class="disease-form" data-disease="stroke">
+          <div class="form-grid">
+            <div class="field"><label>Age</label><input name="age" type="number" min="1" max="120" required></div>
+            <div class="field"><label>Hypertension</label>
+              <div class="toggle-group"><label><input type="radio" name="hypertension" value="1" required> Yes</label><label><input type="radio" name="hypertension" value="0"> No</label></div>
+            </div>
+            <div class="field"><label>Heart disease</label>
+              <div class="toggle-group"><label><input type="radio" name="heart_disease" value="1" required> Yes</label><label><input type="radio" name="heart_disease" value="0"> No</label></div>
+            </div>
+            <div class="field"><label>Smoking</label>
+              <select name="smoking_history"><option value="">Select…</option><option value="never">Never</option><option value="current">Current</option></select>
+            </div>
+          </div>
+          <p style="margin-top:.6rem">Dataset / analysis notebook: <a href="/data/stroke-predictions.ipynb">view</a></p>
+          <button class="btn-primary" type="submit">Predict stroke risk</button>
+        </form>
+      </div>
+
+      <section id="result" class="result hidden">
+        <div class="result-box">
+          <div class="risk-pct" id="riskPct">—</div>
+          <div class="risk-label" id="riskLabel">—</div>
+        </div>
+      </section>
+    </section>
+
+    <section id="prevention" class="tab">
+      <section class="intro-panel">
+        <h2>Prevention that makes a real difference</h2>
+        <p>Long-term disease risk is strongly shaped by daily habits. The most effective prevention plans are practical, sustainable, and tailored to the patient’s age, medical history, and lifestyle. Small consistent changes often reduce risk more than dramatic short-term efforts.</p>
+      </section>
+
+      <div class="prevention-grid">
+        <article class="card prevention-card">
+          <h3>Type 2 diabetes prevention</h3>
+          <p>Keep weight in a healthy range, prioritize whole foods over highly processed options, limit sugary drinks, and build regular physical activity into the week. Monitoring blood glucose and blood pressure can help identify changes early so they can be addressed before complications develop.</p>
+        </article>
+        <article class="card prevention-card">
+          <h3>Heart disease prevention</h3>
+          <p>Reduce sodium and saturated fat, avoid smoking, maintain healthy cholesterol and blood pressure, and aim for regular movement and recovery. Good sleep, stress management, and consistent follow-up visits all help protect the heart over time.</p>
+        </article>
+        <article class="card prevention-card">
+          <h3>Stroke prevention</h3>
+          <p>Controlling blood pressure is one of the most important steps because it directly lowers the chance of strokes and other vascular events. Managing heart rhythm problems, stopping smoking, exercising regularly, and following medical advice all lower stroke risk.</p>
+        </article>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // Tab switching and disease panel selection
+    const diseaseSelect = document.getElementById('diseaseSelect');
+    function showDiseasePanel(name) {
+      document.querySelectorAll('.disease-panel').forEach(p => p.classList.add('hidden'));
+      const el = document.querySelector(`.disease-panel[data-disease="${name}"]`);
+      if (el) el.classList.remove('hidden');
+    }
+
+    function showTab(tabName) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      const btn = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
+      if (btn) btn.classList.add('active');
+      document.getElementById(tabName).classList.add('active');
+      if (tabName === 'predictor') {
+        showDiseasePanel(diseaseSelect.value);
+      }
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => showTab(btn.dataset.tab));
+    });
+
+    diseaseSelect.addEventListener('change', (e) => {
+      showDiseasePanel(e.target.value);
+    });
+
+    showTab('home');
+
+    // Form submission for each disease form
+    document.querySelectorAll('.disease-form').forEach(form => {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fd = new FormData(form);
+        const payload = {};
+        for (const [k,v] of fd.entries()) payload[k] = v;
+        payload.disease = form.dataset.disease === 'heart' ? 'heart' : (form.dataset.disease === 'stroke' ? 'stroke' : 'diabetes');
+
+        const res = await fetch('/predict', { method: 'POST', headers: { 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
+        const data = await res.json();
+        if (data.error) { alert('Error: ' + data.error); return; }
+
+        const resultEl = document.getElementById('result');
+        const pctEl = document.getElementById('riskPct');
+        const labelEl = document.getElementById('riskLabel');
+
+        pctEl.textContent = data.risk_pct + '%';
+        labelEl.textContent = data.label + ' Risk';
+        labelEl.className = 'risk-label label-' + data.label.toLowerCase();
+        resultEl.classList.remove('hidden');
+        resultEl.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
