@@ -1,0 +1,34 @@
+# OS
+.DS_Store
+.DS_Store?
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Data files (large, should be downloaded separately)
+data/*.csv
+data/*.ipynb
+
+# Models (optional - uncomment if you want to gitignore)
+# models/*.pkl
+
+# Flask
+instance/
+.webassets-cache
