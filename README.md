@@ -2,6 +2,10 @@
 
 A minimal full-stack ML web app that estimates diabetes risk from health metrics using a Random Forest classifier.
 
+## Screenshots
+
+![Disease Risk Predictor Interface](docs/screenshot.png)
+
 ## Setup
 
 ```bash
@@ -29,7 +33,7 @@ This prints accuracy and saves `models/diabetes_model.pkl`.
 ## Run the app
 
 ```bash
-python app.py
+python3 app.py
 ```
 
 Open http://localhost:5000 in your browser.
