@@ -2,6 +2,17 @@
 
 A minimal full-stack ML web app that estimates diabetes risk from health metrics using a Random Forest classifier.
 
+## Project Background
+
+This project was created as a proof-of-concept to demonstrate how machine learning can be applied to clinical risk prediction in a simple, accessible web interface. The goal is to showcase the complete pipeline from data to deployment:
+
+- **Data ingestion** from Kaggle's diabetes prediction dataset (≈100K patient records)
+- **Model training** using scikit-learn's Random Forest algorithm
+- **Web deployment** with a clean, responsive UI for clinicians and patients
+- **Real-time prediction** via a REST API
+
+The project prioritizes simplicity and clarity over complexity, avoiding unnecessary abstractions and focusing on working, deployable code.
+
 ## Screenshots
 
 ![Disease Risk Predictor Interface](docs/screenshot.png)
@@ -61,6 +72,58 @@ project/
 1. `train_model.py` loads the CSV, encodes categoricals, trains a `RandomForestClassifier`, and saves the model + encoders with `joblib`.
 2. `app.py` loads the saved model and exposes a `/predict` POST endpoint that returns a risk percentage via `predict_proba()`.
 3. The frontend sends form data as JSON and renders the risk percentage with a Low / Medium / High label.
+
+## Machine Learning Model
+
+### Algorithm: Random Forest Classifier
+
+**Why Random Forest?**
+- **Robust & generalizable**: Multiple decision trees reduce overfitting and noise in clinical data
+- **Non-linear patterns**: Captures complex relationships between health metrics better than linear models
+- **Feature importance**: Interpretable feature weights help understand which inputs matter most
+- **Probability calibration**: `predict_proba()` provides confidence scores (0–1) for smooth risk gradients
+- **No scaling required**: Works directly with raw numeric and categorical features
+
+### Model Architecture
+
+```
+RandomForestClassifier(
+    n_estimators=100,      # 100 decision trees voting on outcome
+    random_state=42        # Reproducible results
+)
+```
+
+Each tree learns different splits of the feature space, and the ensemble averages predictions for stability.
+
+### Training Process
+
+1. **Load data**: 100K patient records from Kaggle diabetes dataset
+2. **Encode categoricals**: LabelEncoder for `gender` and `smoking_history`
+3. **Train/test split**: 80/20 split for unbiased evaluation
+4. **Model training**: Fit ensemble on training data
+5. **Evaluation**: Report accuracy on held-out test set
+6. **Serialization**: Save model + encoders with `joblib` for production use
+
+### Features Used for Prediction
+
+| Feature | Type | Range | Clinical Significance |
+|---------|------|-------|----------------------|
+| age | numeric | 1–120 years | Risk increases with age |
+| gender | categorical | Male/Female/Other | Sex-specific risk patterns |
+| bmi | numeric | 10–70 | Obesity is a major risk factor |
+| hypertension | binary | 0/1 | High blood pressure accelerates disease |
+| heart_disease | binary | 0/1 | Comorbidity indicator |
+| smoking_history | categorical | never/former/current/etc | Smoking damages metabolic health |
+| HbA1c_level | numeric | 3–15% | Glycemic control indicator |
+| blood_glucose_level | numeric | 50–400 mg/dL | Direct glucose measurement |
+
+### Risk Classification
+
+The model outputs a probability (0–1) which is converted to a percentage and categorized:
+
+- **Low risk**: < 30%
+- **Medium risk**: 30–60%
+- **High risk**: ≥ 60%
 
 ## Disclaimer
 
